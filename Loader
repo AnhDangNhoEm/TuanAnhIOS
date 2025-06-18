@@ -1,0 +1,189 @@
+local TweenService = game:GetService("TweenService")
+
+-- Biến sự kiện báo hoàn tất
+local FinishedEvent = Instance.new("BindableEvent")
+
+-- ScreenGui
+local screenGui = Instance.new("ScreenGui", game.CoreGui)
+screenGui.Name = "CoolLoadingUI"
+
+-- Main Frame
+local mainFrame = Instance.new("Frame", screenGui)
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.Size = UDim2.new(0, 300, 0, 100)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+
+-- Corner
+Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 12)
+
+-- Viền 7 màu
+local stroke = Instance.new("UIStroke", mainFrame)
+stroke.Thickness = 4
+stroke.Color = Color3.fromRGB(255, 0, 0)
+
+-- Nền gradient chuyển động
+local backgroundGradient = Instance.new("UIGradient")
+backgroundGradient.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 85)),
+	ColorSequenceKeypoint.new(0.25, Color3.fromRGB(255, 85, 0)),
+	ColorSequenceKeypoint.new(0.50, Color3.fromRGB(0, 255, 128)),
+	ColorSequenceKeypoint.new(0.75, Color3.fromRGB(0, 170, 255)),
+	ColorSequenceKeypoint.new(1.00, Color3.fromRGB(170, 0, 255)),
+})
+backgroundGradient.Rotation = 45
+backgroundGradient.Parent = mainFrame
+
+task.spawn(function()
+	while screenGui do
+		for i = 0, 360, 2 do
+			backgroundGradient.Rotation = i
+			task.wait(0.03)
+		end
+	end
+end)
+
+-- Logo
+local logo = Instance.new("ImageLabel")
+logo.Size = UDim2.new(0, 40, 0, 40)
+logo.Position = UDim2.new(0, 10, 0, 10)
+logo.BackgroundTransparency = 1
+logo.Image = "http://www.roblox.com/asset/?id=110657725541747"
+logo.ImageTransparency = 1
+logo.Parent = mainFrame
+
+-- Tiêu đề
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(0, 230, 0, 40)
+title.Position = UDim2.new(0, 60, 0, 15)
+title.BackgroundTransparency = 1
+title.Text = "Tuấn Anh IOS Xin Chào."
+title.Font = Enum.Font.GothamBold
+title.TextSize = 14
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextTransparency = 1
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.TextScaled = true
+title.Parent = mainFrame
+
+-- Text 7 màu cho title
+local titleGradient = Instance.new("UIGradient")
+titleGradient.Color = backgroundGradient.Color
+titleGradient.Rotation = 0
+titleGradient.Parent = title
+
+task.spawn(function()
+	while screenGui do
+		for i = 0, 360, 2 do
+			titleGradient.Rotation = i
+			task.wait(0.03)
+		end
+	end
+end)
+
+-- Progress Bar
+local progressBarBG = Instance.new("Frame", mainFrame)
+progressBarBG.Size = UDim2.new(0, 280, 0, 15)
+progressBarBG.Position = UDim2.new(0.5, 0, 0, 60)
+progressBarBG.AnchorPoint = Vector2.new(0.5, 0)
+progressBarBG.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+progressBarBG.BackgroundTransparency = 0.3
+
+local progressBar = Instance.new("Frame", progressBarBG)
+progressBar.Size = UDim2.new(0, 0, 1, 0)
+progressBar.BackgroundColor3 = Color3.fromRGB(222, 180, 105)
+
+local barCorner = Instance.new("UICorner")
+barCorner.CornerRadius = UDim.new(0, 8)
+barCorner.Parent = progressBarBG
+barCorner:Clone().Parent = progressBar
+
+Instance.new("UIGradient", progressBar).Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(222, 180, 105)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(222, 180, 105))
+}
+
+-- Text "Powered By"
+local poweredBy = Instance.new("TextLabel", mainFrame)
+poweredBy.Size = UDim2.new(0, 280, 0, 20)
+poweredBy.Position = UDim2.new(0.5, 0, 0, 85)
+poweredBy.AnchorPoint = Vector2.new(0.5, 0)
+poweredBy.BackgroundTransparency = 1
+poweredBy.Text = "Tuấn Anh IOS Trùm Make Script VIP✅"
+poweredBy.Font = Enum.Font.SourceSansItalic
+poweredBy.TextSize = 13
+poweredBy.TextColor3 = Color3.fromRGB(255, 255, 255)
+poweredBy.TextTransparency = 1
+
+-- Gradient cho poweredBy
+local poweredGradient = Instance.new("UIGradient", poweredBy)
+poweredGradient.Color = backgroundGradient.Color
+
+task.spawn(function()
+	while screenGui do
+		for i = 0, 360, 2 do
+			poweredGradient.Rotation = i
+			task.wait(0.03)
+		end
+	end
+end)
+
+-- Rainbow viền
+task.spawn(function()
+	local colors = {
+		Color3.fromRGB(255, 0, 0),
+		Color3.fromRGB(255, 127, 0),
+		Color3.fromRGB(255, 255, 0),
+		Color3.fromRGB(0, 255, 0),
+		Color3.fromRGB(0, 255, 255),
+		Color3.fromRGB(0, 0, 255),
+		Color3.fromRGB(139, 0, 255)
+	}
+	local index = 1
+	while screenGui do
+		local nextIndex = (index % #colors) + 1
+		TweenService:Create(stroke, TweenInfo.new(0.4), {Color = colors[nextIndex]}):Play()
+		index = nextIndex
+		task.wait(0.4)
+	end
+end)
+
+-- Tween tiện ích
+local function TweenObject(obj, duration, props)
+	TweenService:Create(obj, TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), props):Play()
+end
+
+-- Animation loading
+task.spawn(function()
+	TweenObject(mainFrame, 0.3, {Size = UDim2.new(0, 320, 0, 110)})
+	wait(0.3)
+	TweenObject(logo, 0.5, {ImageTransparency = 0})
+	TweenObject(title, 0.5, {TextTransparency = 0})
+	wait(0.5)
+	TweenObject(progressBarBG, 0.5, {BackgroundTransparency = 0.1})
+	TweenObject(progressBar, 0.5, {Size = UDim2.new(0.3, 0, 1, 0)})
+	wait(0.5)
+	TweenObject(progressBar, 1, {Size = UDim2.new(0.7, 0, 1, 0)})
+	wait(1)
+	TweenObject(poweredBy, 0.5, {TextTransparency = 0})
+	wait(0.5)
+	TweenObject(progressBar, 0.8, {Size = UDim2.new(0.9, 0, 1, 0)})
+	wait(0.8)
+	TweenObject(progressBar, 0.5, {Size = UDim2.new(1, 0, 1, 0)})
+	wait(0.5)
+	TweenObject(logo, 0.5, {ImageTransparency = 1})
+	TweenObject(title, 0.5, {TextTransparency = 1})
+	TweenObject(progressBarBG, 0.5, {BackgroundTransparency = 1})
+	TweenObject(progressBar, 0.5, {BackgroundTransparency = 1})
+	TweenObject(poweredBy, 0.5, {TextTransparency = 1})
+		TweenObject(mainFrame, 0.3, {Size = UDim2.new(0, 0, 0, 0)})
+	wait(0.3)
+	FinishedEvent:Fire()
+	screenGui:Destroy()
+end)
+
+-- ✅ CHỜ LOADING HOÀN TẤT
+FinishedEvent.Event:Wait()
+
+-- ▶️ BẮT ĐẦU SCRIPT CHÍNH
+print("✅ UI loading hoàn tất! Bắt đầu chạy script chính...")
