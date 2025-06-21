@@ -29,7 +29,8 @@ local TuanAnhIOS = {
     ["Darkbeard"] = "https://discord.com/api/webhooks/1385013485636812900/UDC_qlUamRy4ytYw_Ww6rNlBNE-dCSvTf-PBQsAJNPOSKzL_Zvw8-1q0WJ7-12w3QuPB",
     ["Soul Reaper"] = "https://discord.com/api/webhooks/1385011926563553321/HsW4FQ54vveljsDoQmCbN8xqSz5ODCvU4N9tzS3ls6fC1DjkOqqn5UAfbHMc0H2XKNSi",
     ["Cursed Captain"] = "https://discord.com/api/webhooks/1385011926563553321/HsW4FQ54vveljsDoQmCbN8xqSz5ODCvU4N9tzS3ls6fC1DjkOqqn5UAfbHMc0H2XKNSi",
-    ["Legendary Sword"] = "https://discord.com/api/webhooks/1385013736892272732/CMQixEJcEIMlK9LQpVauQ77pAMm6WtQxu0OlRQqBFmEpTKKif39v3fB2Mwgw29Gq7bX0"
+    ["Legendary Sword"] = "https://discord.com/api/webhooks/1385013736892272732/CMQixEJcEIMlK9LQpVauQ77pAMm6WtQxu0OlRQqBFmEpTKKif39v3fB2Mwgw29Gq7bX0",
+["Fruit"] = "https://discord.com/api/webhooks/1385718074866667520/S1fOwEnfIAKYkGz7MRPqR33Qly2XpLByS4BfVOXM97l6UWNUTqGFZCQFOQn7uwFTOQl7",
 }
 
 --// Enable/Disable webhook groups - Dễ dàng bật/tắt từng group
@@ -58,6 +59,8 @@ function sendBossWebhook(eventName, swordName)
     local displayName = eventName
     if eventName == "Legendary Sword" and swordName then
         displayName = "Legendary Sword (" .. swordName .. ")"
+    elseif eventName == "Fruit" and swordName then
+        displayName = "Fruit Found (" .. swordName .. ")"
     end
     
     local data = {
@@ -114,6 +117,7 @@ local sentKitsune = false
 local sentPrehistoric = false
 local sentFullMoon = false
 local sentNearFullMoon = false
+local sentFruit = {}
 
 --// Darkbeard Only (World 2)
 task.spawn(function()
@@ -146,9 +150,21 @@ task.spawn(function()
     while true do
         task.wait(0.2)
         if game.PlaceId == SEA3_PLACE_ID and not sentRipIndra then
-            if ReplicatedStorage:FindFirstChild("Rip Indra") or Enemies:FindFirstChild("Rip Indra") then
-                sendBossWebhook("Rip Indra")
-                sentRipIndra = true
+            -- Kiểm tra trong ReplicatedStorage
+            for _, v in pairs(ReplicatedStorage:GetChildren()) do
+                if v.Name:lower():find("rip_indra") then
+                    sendBossWebhook("Rip Indra")
+                    sentRipIndra = true
+                    break
+                end
+            end
+            -- Kiểm tra trong workspace.Enemies
+            for _, v in pairs(Enemies:GetChildren()) do
+                if v.Name:lower():find("rip_indra") then
+                    sendBossWebhook("Rip Indra")
+                    sentRipIndra = true
+                    break
+                end
             end
         end
     end
@@ -333,6 +349,18 @@ task.spawn(function()
             previousSword = nil
             sentLegendarySword = false
             task.wait(5) -- Longer wait when not in correct world
+        end
+    end
+end)
+
+--// Gửi thông báo khi phát hiện trái cây
+task.spawn(function()
+    while task.wait(3) do
+        for _, v in pairs(workspace:GetDescendants()) do
+            if v:IsA("Tool") and v:FindFirstChild("Handle") and not sentFruit[v.Name] and v.Name:lower():find("fruit") then
+                sentFruit[v.Name] = true
+                sendBossWebhook("Fruit", v.Name)
+            end
         end
     end
 end)
