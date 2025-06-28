@@ -1,0 +1,71 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local InputService = game:GetService("UserInputService")
+
+local LocalPlayer = Players.LocalPlayer
+
+-- Tạo sẵn HighlightFolder, nhưng để kiểm soát trạng thái Parent sau
+local HighlightFolder = Instance.new("Folder")
+HighlightFolder.Name = "Highlight_Folder"
+
+-- Tạo Highlight cho bản thân
+local function HighlightSelf(player)
+    local highlight = Instance.new("Highlight")
+    highlight.Name = player.Name
+    highlight.FillColor = Color3.fromRGB(255, 255, 255)
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    highlight.FillTransparency = 0.7
+    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+    highlight.Parent = HighlightFolder
+
+    if player.Character then
+        highlight.Adornee = player.Character
+    end
+
+    player.CharacterAdded:Connect(function(char)
+        highlight.Adornee = char
+    end)
+end
+
+HighlightSelf(LocalPlayer)
+
+-- Biến cờ để tránh set lại Parent liên tục không cần thiết
+local lastState = false
+
+-- Tự động kiểm tra trạng thái farm
+spawn(function()
+    while task.wait(0.1) do
+        pcall(function()
+            local isFarming = _G.AutoLevel or _G.AutoBone or _G.Cake or _G.AutoNear
+
+            -- Chuyển trạng thái BringMob
+            _G.BringMob = isFarming
+            if Options and Options.ToggleBringMob then
+                Options.ToggleBringMob:SetValue(isFarming)
+            end
+
+            -- Chỉ chuyển parent khi trạng thái thay đổi
+            if isFarming ~= lastState then
+                lastState = isFarming
+
+                -- Bật/tắt HighlightFolder
+                HighlightFolder.Parent = isFarming and game.CoreGui or nil
+            end
+        end)
+    end
+end)
+
+-- Tự động bật/tắt render khi focus window, nhưng chỉ nếu đang farm
+InputService.WindowFocused:Connect(function()
+    if _G.AutoLevel or _G.AutoBone or _G.Cake or _G.AutoNear or _G.AutoBoss or _G.FarmPhaBinh or _G.CastleRaid or _G.AutoCollectChest or _G.ChestBypass or _G.AutoCollectBerry or _G.AutoMaterial then
+        RunService:Set3dRenderingEnabled(true)
+    end
+end)
+
+InputService.WindowFocusReleased:Connect(function()
+    if _G.AutoLevel or _G.AutoBone or _G.Cake or _G.AutoNear or _G.AutoBoss or _G.FarmPhaBinh or _G.CastleRaid or _G.AutoCollectChest or _G.ChestBypass or _G.AutoCollectBerry or _G.AutoMaterial then
+        RunService:Set3dRenderingEnabled(false)
+    else
+        RunService:Set3dRenderingEnabled(true)
+    end
+		end)
