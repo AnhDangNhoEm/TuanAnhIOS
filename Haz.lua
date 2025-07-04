@@ -1,4 +1,4 @@
---Skid Cái Con Mẹ Mày À Mà Skid
+--Skid Cái Con Mẹ Mày À Mà Skida
 
 
 
