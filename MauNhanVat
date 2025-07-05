@@ -11,12 +11,12 @@ HighlightFolder.Name = "Highlight_Folder"
 -- Tạo Highlight cho bản thân
 local function HighlightSelf(player)
     local highlight = Instance.new("Highlight")
-    highlight.Name = player.Name
-    highlight.FillColor = Color3.fromRGB(255, 255, 255)
-    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-    highlight.FillTransparency = 0.7
-    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-    highlight.Parent = HighlightFolder
+highlight.Name = player.Name
+highlight.FillColor = Color3.fromRGB(0, 255, 0) -- Neon Green Fill
+highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+highlight.FillTransparency = 0.7
+highlight.OutlineColor = Color3.fromRGB(0, 255, 0) -- Neon Green Outline
+highlight.Parent = HighlightFolder
 
     if player.Character then
         highlight.Adornee = player.Character
@@ -36,7 +36,7 @@ local lastState = false
 spawn(function()
     while task.wait(0.1) do
         pcall(function()
-            local isFarming = _G.AutoLevel or _G.AutoBone or _G.Cake or _G.AutoNear
+            local isFarming = _G.AutoLevel or _G.AutoBone or _G.Cake or _G.AutoNear or _G.AutoBoss or _G.FarmPhaBinh or _G.CastleRaid or _G.AutoCollectChest or _G.ChestBypass or _G.AutoCollectBerry or _G.AutoMaterial
 
             -- Chuyển trạng thái BringMob
             _G.BringMob = isFarming
