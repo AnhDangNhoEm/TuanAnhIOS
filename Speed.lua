@@ -11,14 +11,14 @@ local function startEnforceSpeed()
 	local humanoid = character:WaitForChild("Humanoid")
 
 	enforceConnection = RunService.Heartbeat:Connect(function()
-		if humanoid.WalkSpeed ~= 50 then
-			humanoid.WalkSpeed = 50
+		if humanoid.WalkSpeed ~= 49 then
+			humanoid.WalkSpeed = 49
 		end
 	end)
 
 	humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
-		if boostAktif and humanoid.WalkSpeed ~= 50 then
-			humanoid.WalkSpeed = 50
+		if boostAktif and humanoid.WalkSpeed ~= 49 then
+			humanoid.WalkSpeed = 49
 		end
 	end)
 end
@@ -89,10 +89,10 @@ local function buatBoostGUI()
 	boostBtn.MouseButton1Click:Connect(function()
 		boostAktif = not boostAktif
 		if boostAktif then
-			boostBtn.Text = "Speed ON"
+			boostBtn.Text = "Speed OFF"
 			startEnforceSpeed()
 		else
-			boostBtn.Text = "Speed OFF"
+			boostBtn.Text = "Speed ON"
 			stopEnforceSpeed()
 		end
 	end)
