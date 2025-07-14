@@ -182,8 +182,4 @@ task.spawn(function()
 	screenGui:Destroy()
 end)
 
--- ✅ CHỜ LOADING HOÀN TẤT
 FinishedEvent.Event:Wait()
-
--- ▶️ BẮT ĐẦU SCRIPT CHÍNH
-print("✅ UI loading hoàn tất! Bắt đầu chạy script chính...")
