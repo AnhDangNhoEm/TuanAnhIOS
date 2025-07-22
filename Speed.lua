@@ -11,14 +11,14 @@ local function startEnforceSpeed()
 	local humanoid = character:WaitForChild("Humanoid")
 
 	enforceConnection = RunService.Heartbeat:Connect(function()
-		if humanoid.WalkSpeed ~= 48 then
-			humanoid.WalkSpeed = 48
+		if humanoid.WalkSpeed ~= 45 then
+			humanoid.WalkSpeed = 45
 		end
 	end)
 
 	humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
-		if boostAktif and humanoid.WalkSpeed ~= 48 then
-			humanoid.WalkSpeed = 48
+		if boostAktif and humanoid.WalkSpeed ~= 45 then
+			humanoid.WalkSpeed = 45
 		end
 	end)
 end
@@ -33,7 +33,7 @@ local function stopEnforceSpeed()
 	if char then
 		local hum = char:FindFirstChildOfClass("Humanoid")
 		if hum then
-			hum.WalkSpeed = 35
+			hum.WalkSpeed = 20
 		end
 	end
 end
