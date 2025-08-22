@@ -1,23 +1,16 @@
 local TweenService = game:GetService("TweenService")
-
--- Biến sự kiện báo hoàn tất
 local FinishedEvent = Instance.new("BindableEvent")
 
--- ScreenGui
 local screenGui = Instance.new("ScreenGui", game.CoreGui)
 screenGui.Name = "CoolLoadingUI"
 
--- Main Frame
 local mainFrame = Instance.new("Frame", screenGui)
 mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.Size = UDim2.new(0, 300, 0, 100)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-
--- Corner
 Instance.new("UICorner", mainFrame).CornerRadius = UDim.new(0, 12)
 
--- Viền 7 màu
 local stroke = Instance.new("UIStroke", mainFrame)
 stroke.Thickness = 4
 stroke.Color = Color3.fromRGB(255, 0, 0)
@@ -43,7 +36,6 @@ task.spawn(function()
 	end
 end)
 
--- Logo
 local logo = Instance.new("ImageLabel")
 logo.Size = UDim2.new(0, 40, 0, 40)
 logo.Position = UDim2.new(0, 10, 0, 10)
@@ -52,7 +44,6 @@ logo.Image = "http://www.roblox.com/asset/?id=110657725541747"
 logo.ImageTransparency = 1
 logo.Parent = mainFrame
 
--- Tiêu đề
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(0, 230, 0, 40)
 title.Position = UDim2.new(0, 60, 0, 15)
@@ -66,7 +57,6 @@ title.TextXAlignment = Enum.TextXAlignment.Left
 title.TextScaled = true
 title.Parent = mainFrame
 
--- Text 7 màu cho title
 local titleGradient = Instance.new("UIGradient")
 titleGradient.Color = backgroundGradient.Color
 titleGradient.Rotation = 0
@@ -81,7 +71,6 @@ task.spawn(function()
 	end
 end)
 
--- Progress Bar
 local progressBarBG = Instance.new("Frame", mainFrame)
 progressBarBG.Size = UDim2.new(0, 280, 0, 15)
 progressBarBG.Position = UDim2.new(0.5, 0, 0, 60)
@@ -103,7 +92,6 @@ Instance.new("UIGradient", progressBar).Color = ColorSequence.new{
 	ColorSequenceKeypoint.new(1, Color3.fromRGB(222, 180, 105))
 }
 
--- Text "Powered By"
 local poweredBy = Instance.new("TextLabel", mainFrame)
 poweredBy.Size = UDim2.new(0, 280, 0, 20)
 poweredBy.Position = UDim2.new(0.5, 0, 0, 85)
@@ -128,7 +116,6 @@ task.spawn(function()
 	end
 end)
 
--- Rainbow viền
 task.spawn(function()
 	local colors = {
 		Color3.fromRGB(255, 0, 0),
@@ -148,7 +135,6 @@ task.spawn(function()
 	end
 end)
 
--- Tween tiện ích
 local function TweenObject(obj, duration, props)
 	TweenService:Create(obj, TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), props):Play()
 end
