@@ -1,0 +1,39 @@
+function GetQuestData(level)
+    if level >= 2600 and level <= 2624 then
+        return {
+            Mon = "Reef Bandit",
+            Qdata = 1,
+            Qname = "SubmergedQuest1",
+            NameMon = "Reef Bandit",
+            PosQ = CFrame.new(10882.264,-2086.322,10034.226),
+            PosM = CFrame.new(10736.6191,-2087.8439,9338.4882)
+        }
+    elseif level >= 2625 and level <= 2649 then
+        return {
+            Mon = "Coral Pirate",
+            Qdata = 2,
+            Qname = "SubmergedQuest1",
+            NameMon = "Coral Pirate",
+            PosQ = CFrame.new(10882.264,-2086.322,10034.226),
+            PosM = CFrame.new(10965.1025,-2158.8842,9177.2597)
+        }
+    elseif level >= 2650 and level <= 2674 then
+        return {
+            Mon = "Sea Chanter",
+            Qdata = 1,
+            Qname = "SubmergedQuest2",
+            NameMon = "Sea Chanter",
+            PosQ = CFrame.new(10882.264,-2086.322,10034.226),
+            PosM = CFrame.new(10621.0342,-2087.8440,10102.0332)
+        }
+    elseif level >= 2675 and level <= 2750 then
+        return {
+            Mon = "Ocean Prophet",
+            Qdata = 2,
+            Qname = "SubmergedQuest2",
+            NameMon = "Ocean Prophet",
+            PosQ = CFrame.new(10882.264,-2086.322,10034.226),
+            PosM = CFrame.new(11056.1445,-2001.6717,10117.4493)
+        }
+    end
+end
